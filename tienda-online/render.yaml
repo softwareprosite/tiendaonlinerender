@@ -1,0 +1,40 @@
+# render.yaml — Blueprint de despliegue para Render.com
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: tienda-online-api
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: tienda-online-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: tienda-online-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: tienda-online-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: tienda-online-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: tienda-online-db
+          property: database
+      - key: PORT
+        value: 10000
+
+databases:
+  - name: tienda-online-db
+    databaseName: tienda_online
+    user: tienda_user
+    plan: free
